@@ -1,5 +1,6 @@
 const express = require("express");
 require("dotenv").config();
+const cors = require("cors");
 
 //express app
 const app = express();
@@ -8,6 +9,7 @@ const workoutsRouter = require("./routes/workouts");
 
 //middleware
 app.use(express.json());
+app.use(cors({ origin: "*", credentials: true }));
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);

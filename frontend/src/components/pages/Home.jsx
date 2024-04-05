@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { WorkoutDetails } from "../shared";
+import axios, { AxiosError } from "axios";
 
 const Home = () => {
   const [workouts, setWorkouts] = useState(null);
 
   const fetchWorkouts = async () => {
     try {
-      const response = await fetch("http://localhost:4000/api/workouts/");
-      console.log(response);
-
-      const json = await response.json();
-
-      if (response.ok) {
-        setWorkouts(json);
-      }
+      const response = await axios.get("http://localhost:4000/api/workouts/");
+      if (!response.data)
+        throw new AxiosError({ message: "No such Workout Present" }); // Creating AxiosError with custom message
+      const { data } = response;
+      setWorkouts(data);
     } catch (error) {
-      console.log(error);
+      //   console.log(error.message);
+      alert(error.message);
     }
   };
 
